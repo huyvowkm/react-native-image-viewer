@@ -77,7 +77,10 @@ export const getImageStyles = (
   const transform = translate.getTranslateTransform();
 
   if (scale) {
-    transform.push({ scale }, { perspective: new Animated.Value(1000) });
+    transform.push(
+      { scale } as unknown as { translateX: Animated.Value },
+      { perspective: new Animated.Value(1000) } as unknown as { translateY: Animated.Value }
+    );
   }
 
   return {

@@ -127,14 +127,14 @@ function ImageViewing({
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           initialScrollIndex={imageIndex}
-          getItem={(_, index) => images[index]}
+          getItem={(_: any, index: number) => images[index]}
           getItemCount={() => images.length}
-          getItemLayout={(_, index) => ({
+          getItemLayout={(_: any, index: number) => ({
             length: SCREEN_WIDTH,
             offset: SCREEN_WIDTH * index,
             index,
           })}
-          renderItem={({ item: imageSrc }) => (
+          renderItem={({ item: imageSrc }: { item: ImageSource }) => (
             <ImageItem
               onZoom={onZoom}
               imageSrc={imageSrc}
