@@ -1,12 +1,14 @@
 {
-  "name": "react-native-image-viewing",
+  "name": "@cicko/react-native-image-viewing",
+  "author": "Cicko",
   "version": "0.2.2",
   "description": "React Native modal component for viewing images as a sliding gallery",
   "main": "dist/index.js",
+  "private": false,
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jobtoday/react-native-image-viewing.git"
+    "url": "git+https://github.com/Cicko/react-native-image-viewer"
   },
   "keywords": [
     "react",
@@ -29,7 +31,6 @@
     "readme.md",
     "package.json"
   ],
-  "author": "Anton Kalinin",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jobtoday/react-native-image-viewing/issues"
