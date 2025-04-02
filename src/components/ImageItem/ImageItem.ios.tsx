@@ -18,6 +18,7 @@ import {
   NativeSyntheticEvent,
   TouchableWithoutFeedback,
   GestureResponderEvent,
+  ViewStyle,
 } from "react-native";
 
 import useDoubleTapToZoom from "../../hooks/useDoubleTapToZoom";
@@ -41,6 +42,8 @@ type Props = {
   delayLongPress: number;
   swipeToCloseEnabled?: boolean;
   doubleTapToZoomEnabled?: boolean;
+  containerStyle?: ViewStyle;
+  style?: ViewStyle;
 };
 
 const ImageItem = ({
@@ -51,6 +54,8 @@ const ImageItem = ({
   delayLongPress,
   swipeToCloseEnabled = true,
   doubleTapToZoomEnabled = true,
+  containerStyle,
+  style,
 }: Props) => {
   const scrollViewRef = useRef<ScrollView>(null);
   const [loaded, setLoaded] = useState(false);
@@ -114,10 +119,10 @@ const ImageItem = ({
   );
 
   return (
-    <View>
+    <View style={[containerStyle]}>
       <ScrollView
         ref={scrollViewRef}
-        style={styles.listItem}
+        style={[styles.listItem, style]}
         pinchGestureEnabled
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -138,7 +143,7 @@ const ImageItem = ({
         >
           <Animated.Image
             source={imageSrc}
-            style={imageStylesWithOpacity}
+            style={[imageStylesWithOpacity]}
             onLoad={() => setLoaded(true)}
           />
         </TouchableWithoutFeedback>

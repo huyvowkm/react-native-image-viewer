@@ -15,6 +15,7 @@ import {
   VirtualizedList,
   ModalProps,
   Modal,
+  ViewStyle,
 } from "react-native";
 
 import ImageItem from "./components/ImageItem/ImageItem";
@@ -42,6 +43,11 @@ type Props = {
   delayLongPress?: number;
   HeaderComponent?: ComponentType<{ imageIndex: number }>;
   FooterComponent?: ComponentType<{ imageIndex: number }>;
+  modalStyle?: ViewStyle;
+  containerStyle?: ViewStyle;
+  listStyle?: ViewStyle;
+  imageItemContainerStyle?: ViewStyle;
+  imageItemStyle?: ViewStyle;
 };
 
 const DEFAULT_ANIMATION_TYPE = "fade";
@@ -66,6 +72,11 @@ function ImageViewing({
   delayLongPress = DEFAULT_DELAY_LONG_PRESS,
   HeaderComponent,
   FooterComponent,
+  listStyle,
+  containerStyle,
+  modalStyle,
+  imageItemContainerStyle,
+  imageItemStyle,
 }: Props) {
   const imageList = useRef<VirtualizedList<ImageSource>>(null);
   const [opacity, onRequestCloseEnhanced] = useRequestClose(onRequestClose);
@@ -100,13 +111,14 @@ function ImageViewing({
       presentationStyle={presentationStyle}
       animationType={animationType}
       onRequestClose={onRequestCloseEnhanced}
+      style={[modalStyle]}
       supportedOrientations={["portrait"]}
       hardwareAccelerated
     >
       {presentationStyle !== "overFullScreen" && (
         <StatusBarManager presentationStyle={presentationStyle} />
       )}
-      <View style={[styles.container, { opacity, backgroundColor }]}>
+      <View style={[styles.container, { opacity, backgroundColor }, containerStyle]}>
         <Animated.View style={[styles.header, { transform: headerTransform }]}>
           {typeof HeaderComponent !== "undefined" ? (
             React.createElement(HeaderComponent, {
@@ -120,6 +132,7 @@ function ImageViewing({
           ref={imageList}
           data={images}
           horizontal
+          style={[listStyle]}
           pagingEnabled
           windowSize={2}
           initialNumToRender={1}
@@ -137,6 +150,8 @@ function ImageViewing({
           renderItem={({ item: imageSrc }: { item: ImageSource }) => (
             <ImageItem
               onZoom={onZoom}
+              containerStyle={imageItemContainerStyle}
+              style={imageItemStyle}
               imageSrc={imageSrc}
               onRequestClose={onRequestCloseEnhanced}
               onLongPress={onLongPress}

@@ -1,7 +1,7 @@
 {
   "name": "@cicko/react-native-image-viewing",
   "author": "Cicko",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "React Native modal component for viewing images as a sliding gallery",
   "main": "dist/index.js",
   "private": false,

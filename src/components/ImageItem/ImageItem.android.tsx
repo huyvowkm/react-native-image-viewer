@@ -16,6 +16,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   NativeMethodsMixin,
+  ViewStyle,
 } from "react-native";
 
 import useImageDimensions from "../../hooks/useImageDimensions";
@@ -39,6 +40,8 @@ type Props = {
   delayLongPress: number;
   swipeToCloseEnabled?: boolean;
   doubleTapToZoomEnabled?: boolean;
+  containerStyle?: ViewStyle;
+  style?: ViewStyle;
 };
 
 const ImageItem = ({
@@ -49,6 +52,7 @@ const ImageItem = ({
   delayLongPress,
   swipeToCloseEnabled = true,
   doubleTapToZoomEnabled = true,
+  style,
 }: Props) => {
   const imageContainer = useRef<ScrollView & NativeMethodsMixin>(null);
   const imageDimensions = useImageDimensions(imageSrc);
@@ -119,7 +123,7 @@ const ImageItem = ({
   return (
     <ScrollView
       ref={imageContainer}
-      style={styles.listItem}
+      style={[styles.listItem, style]}
       pagingEnabled
       nestedScrollEnabled
       showsHorizontalScrollIndicator={false}
@@ -134,7 +138,7 @@ const ImageItem = ({
       <Animated.Image
         {...panHandlers}
         source={imageSrc}
-        style={imageStylesWithOpacity}
+        style={[imageStylesWithOpacity]}
         onLoad={onLoaded}
       />
       {(!isLoaded || !imageDimensions) && <ImageLoading />}
