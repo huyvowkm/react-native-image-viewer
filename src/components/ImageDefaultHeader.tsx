@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-import { SafeAreaView, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { SafeAreaView, Text, TouchableOpacity, StyleSheet, Platform } from "react-native";
 
 type Props = {
   onRequestClose: () => void;
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     marginRight: 8,
-    marginTop: 8,
+    marginTop: Platform.OS === "ios" ? 8 : 32,
     width: 44,
     height: 44,
     alignItems: "center",
