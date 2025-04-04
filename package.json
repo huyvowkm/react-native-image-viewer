@@ -1,7 +1,7 @@
 {
   "name": "@cicko/react-native-image-viewing",
   "author": "Cicko",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "React Native modal component for viewing images as a sliding gallery",
   "main": "dist/index.js",
   "private": false,
@@ -31,12 +31,5 @@
   "bugs": {
     "url": "https://github.com/Cicko/react-native-image-viewer/issues"
   },
-  "homepage": "https://github.com/Cicko/react-native-image-viewer#readme",
-  "peerDependencies": {
-    "@babel/runtime": "7.7.4",
-    "@types/react": "^18.3.20",
-    "react": ">=18.3.1",
-    "react-native": ">=0.74.7",
-    "typescript": "^4.9.5"
-  }
+  "homepage": "https://github.com/Cicko/react-native-image-viewer#readme"
 }
