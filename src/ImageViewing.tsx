@@ -92,7 +92,7 @@ const ImageViewing = forwardRef<ImageViewingRef, Props>(({
     setImageIndex: (index: number) => {
       if (index >= 0 && index < images.length) {
         setImageIndex(index);
-        imageList.current?.scrollToIndex({ index, animated: true });
+        imageList.current?.scrollToIndex({ index, animated: false });
       }
     },
   }), [images.length, setImageIndex]);
