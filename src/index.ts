@@ -7,3 +7,4 @@
  */
 
 export { default } from "./ImageViewing";
+export type { ImageViewingRef } from "./ImageViewing";
