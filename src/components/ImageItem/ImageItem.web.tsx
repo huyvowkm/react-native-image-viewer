@@ -113,5 +113,14 @@ const ImageItem = ({
   );
 };
 
+const styles = StyleSheet.create({
+  listItem: {
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+  },
+  imageScrollContainer: {
+    height: SCREEN_HEIGHT * 2,
+  },
+});
 
 export default React.memo(ImageItem);
