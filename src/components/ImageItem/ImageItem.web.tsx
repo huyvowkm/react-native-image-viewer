@@ -52,9 +52,7 @@ const ImageItem = ({
   containerStyle,
   style,
 }: Props) => {
-  const scrollViewRef = useRef<ScrollView>(null);
   const [loaded, setLoaded] = useState(false);
-  const [scaled, setScaled] = useState(false);
   const imageDimensions = useImageDimensions(imageSrc);
   
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
@@ -69,13 +67,15 @@ const ImageItem = ({
 
   const imagesStyles = getImageStyles(
     imageDimensions,
+    translateValue,
     scaleValue
   );
   
   // Apply web zoom scaling
   const imageStylesWithOpacity = {
     ...imagesStyles,
-    opacity: imageOpacity,
+    // opacity: imageOpacity,
+    translateValue
   };
 
   return (
