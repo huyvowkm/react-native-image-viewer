@@ -56,14 +56,18 @@ const ImageItem = ({
   const imageDimensions = useImageDimensions(imageSrc);
   
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
-  const scaleValue = new Animated.Value(scale || 1);
+  const scaleValue = new Animated.Value(1);
   const translateValue = new Animated.ValueXY(translate);
 
-  const imagesStyles = getImageStyles(
-    imageDimensions,
-    translateValue,
-    scaleValue
-  );
+  const imagesStyles = {
+    ...getImageStyles(
+      imageDimensions,
+      translateValue,
+      scaleValue,
+    ),
+    width: SCREEN_WIDTH,
+    resizeMode: 'contain',
+  };
 
   return (
     <View style={[containerStyle]}>
@@ -76,15 +80,5 @@ const ImageItem = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  listItem: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-  },
-  imageScrollContainer: {
-    height: SCREEN_HEIGHT,
-  },
-});
 
 export default React.memo(ImageItem);
