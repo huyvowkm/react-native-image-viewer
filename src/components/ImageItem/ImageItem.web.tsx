@@ -97,6 +97,9 @@ const ImageItem = ({
       <ScrollView
         ref={scrollViewRef}
         style={[styles.listItem, style]}
+        pinchGestureEnabled
+        nestedScrollEnabled
+        pagingEnabled
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.imageScrollContainer}
