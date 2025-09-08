@@ -13,7 +13,7 @@ import {
   View,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  TouchableWithoutFeedback,
+  Pressable,
   GestureResponderEvent,
   ViewStyle,
 } from "react-native";
@@ -134,7 +134,7 @@ const ImageItem = ({
         })}
       >
         {(!loaded || !imageDimensions) && <ImageLoading />}
-        <TouchableWithoutFeedback
+        <Pressable
           onPress={doubleTapToZoomEnabled ? handleDoubleTap : undefined}
           onLongPress={onLongPressHandler}
           delayLongPress={delayLongPress}
@@ -144,7 +144,7 @@ const ImageItem = ({
             style={[imageStylesWithOpacity]}
             onLoad={() => setLoaded(true)}
           />
-        </TouchableWithoutFeedback>
+        </Pressable>
       </ScrollView>
     </View>
   );
