@@ -104,6 +104,11 @@ const ImageItem = ({
           style={[imageStylesWithOpacity]}
           onLoad={() => setLoaded(true)}
         />
+        <Animated.Image
+          source={imageSrc}
+          style={[imageStylesWithOpacity]}
+          onLoad={() => setLoaded(true)}
+        />
       </ScrollView>
     </View>
   );
