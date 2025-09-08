@@ -116,8 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
   },
   imageScrollContainer: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
+
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
