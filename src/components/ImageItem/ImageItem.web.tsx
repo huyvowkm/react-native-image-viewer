@@ -91,6 +91,8 @@ const ImageItem = ({
         ref={scrollViewRef}
         style={[styles.listItem, style]}
         pinchGestureEnabled
+        nestedScrollEnabled
+        pagingEnabled
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         maximumZoomScale={maxScale}
