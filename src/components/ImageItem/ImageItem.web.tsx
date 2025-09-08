@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
   imageScrollContainer: {
 
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "yellow",
   },
 });
