@@ -130,6 +130,8 @@ const styles = StyleSheet.create({
   },
   imageScrollContainer: {
     width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "yellow",
