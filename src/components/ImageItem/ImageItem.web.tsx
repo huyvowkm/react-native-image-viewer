@@ -60,9 +60,9 @@ const ImageItem = ({
   const translateValue = new Animated.ValueXY(translate);
 
   const imagesStyles = getImageStyles(
-    imageDimensions,
+    // imageDimensions,
     translateValue,
-    // scaleValue
+    scaleValue
   );
 
   return (
