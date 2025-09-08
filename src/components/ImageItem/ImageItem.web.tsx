@@ -105,6 +105,7 @@ const ImageItem = ({
         ref={scrollViewRef}
         style={[styles.listItem, style]}
         pinchGestureEnabled
+        
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         maximumZoomScale={maxScale}
@@ -112,11 +113,6 @@ const ImageItem = ({
         scrollEventThrottle={1}
       >
         {(!loaded || !imageDimensions) && <ImageLoading />}
-        <Animated.Image
-          source={imageSrc}
-          style={[imageStylesWithOpacity]}
-          onLoad={() => setLoaded(true)}
-        />
         <Animated.Image
           source={imageSrc}
           style={[imageStylesWithOpacity]}
