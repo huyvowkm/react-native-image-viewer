@@ -60,7 +60,8 @@ const ImageItem = ({
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
   const scrollValueY = new Animated.Value(0);
   const scaleValue = new Animated.Value(scale || 1);
-  const translateValue = new Animated.ValueXY(translate);
+  // On web, center via layout instead of translate to avoid misalignment
+  const translateValue = new Animated.ValueXY({ x: 0, y: 0 });
   const maxScale = scale && scale > 0 ? Math.max(1 / scale, 1) : 1;
   
   const imageOpacity = scrollValueY.interpolate({
@@ -111,10 +112,12 @@ const ImageItem = ({
 const styles = StyleSheet.create({
   listItem: {
     width: SCREEN_WIDTH,
-    // height: SCREEN_HEIGHT,
+    height: SCREEN_HEIGHT,
   },
   imageScrollContainer: {
-    // height: SCREEN_HEIGHT,
+  minHeight: SCREEN_HEIGHT,
+  justifyContent: "center",
+  alignItems: "center",
   },
 });
 
