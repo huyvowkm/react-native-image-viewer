@@ -114,13 +114,11 @@ const styles = StyleSheet.create({
   listItem: {
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
-    backgroundColor: "red",
   },
   imageScrollContainer: {
     height: '100%',
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "yellow",
   },
 });
 
