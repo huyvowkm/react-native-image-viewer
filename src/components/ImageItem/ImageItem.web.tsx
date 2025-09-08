@@ -112,7 +112,7 @@ const ImageItem = ({
 const styles = StyleSheet.create({
   listItem: {
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
+    // height: SCREEN_HEIGHT,
     backgroundColor: "red",
   },
   imageScrollContainer: {
