@@ -114,6 +114,8 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
     backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center",
   },
   imageScrollContainer: {
     minHeight: SCREEN_HEIGHT,
