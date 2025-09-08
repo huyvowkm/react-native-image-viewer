@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
   },
   imageScrollContainer: {
-
+    height: '100%',
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "yellow",
