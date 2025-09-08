@@ -56,34 +56,21 @@ const ImageItem = ({
   const imageDimensions = useImageDimensions(imageSrc);
   
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
-  const scrollValueY = new Animated.Value(0);
   const scaleValue = new Animated.Value(scale || 1);
   const translateValue = new Animated.ValueXY(translate);
-  
-  const imageOpacity = scrollValueY.interpolate({
-    inputRange: [-SWIPE_CLOSE_OFFSET, 0, SWIPE_CLOSE_OFFSET],
-    outputRange: [0.5, 1, 0.5],
-  });
 
   const imagesStyles = getImageStyles(
     imageDimensions,
     translateValue,
-    scaleValue
+    // scaleValue
   );
-  
-  // Apply web zoom scaling
-  const imageStylesWithOpacity = {
-    ...imagesStyles,
-    // opacity: imageOpacity,
-    translateValue
-  };
 
   return (
     <View style={[containerStyle]}>
       {(!loaded || !imageDimensions) && <ImageLoading />}
       <Animated.Image
         source={imageSrc}
-        style={[imageStylesWithOpacity]}
+        style={[imagesStyles]}
         onLoad={() => setLoaded(true)}
       />
     </View>
