@@ -115,9 +115,11 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT,
   },
   imageScrollContainer: {
-  minHeight: SCREEN_HEIGHT,
-  justifyContent: "center",
-  alignItems: "center",
+    minHeight: SCREEN_HEIGHT,
+    width: SCREEN_WIDTH,
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
