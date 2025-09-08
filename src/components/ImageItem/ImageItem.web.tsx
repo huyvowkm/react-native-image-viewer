@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "yellow",
   },
 });
 
