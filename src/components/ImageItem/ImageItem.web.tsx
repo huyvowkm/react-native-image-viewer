@@ -52,20 +52,37 @@ const ImageItem = ({
   containerStyle,
   style,
 }: Props) => {
+  const scrollViewRef = useRef<ScrollView>(null);
   const [loaded, setLoaded] = useState(false);
+  const [scaled, setScaled] = useState(false);
   const imageDimensions = useImageDimensions(imageSrc);
   
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
+  const scrollValueY = new Animated.Value(0);
+  const scaleValue = new Animated.Value(scale || 1);
   const translateValue = new Animated.ValueXY(translate);
+  const maxScale = scale && scale > 0 ? Math.max(1 / scale, 1) : 1;
+  
+  const imageOpacity = scrollValueY.interpolate({
+    inputRange: [-SWIPE_CLOSE_OFFSET, 0, SWIPE_CLOSE_OFFSET],
+    outputRange: [0.5, 1, 0.5],
+  });
 
   const imagesStyles = getImageStyles(
     imageDimensions,
     translateValue,
+    scaleValue
   );
   
+  // Apply web zoom scaling
+  const webZoomScale = scaled ? 2 : 1;
   const imageStylesWithOpacity = { 
     ...imagesStyles, 
-    opacity: 1,
+    opacity: imageOpacity,
+    transform: [
+      ...(imagesStyles.transform || []),
+      { scale: webZoomScale }
+    ]
   };
 
   return (
@@ -79,5 +96,15 @@ const ImageItem = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  listItem: {
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
+  },
+  imageScrollContainer: {
+    height: SCREEN_HEIGHT,
+  },
+});
 
 export default React.memo(ImageItem);
