@@ -1,29 +1,47 @@
-import { useCallback } from "react";
+/**
+ * Copyright (c) JOB TODAY S.A. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 
-const DOUBLE_TAP_DELAY = 300;
-let lastTapTS: number | null = null;
+import React, { useCallback } from "react";
+import { Dimensions } from "../@types";
 
+/**
+ * Web implementation of zoom functionality.
+ * Uses Ctrl+click instead of double-tap for better web UX.
+ */
 function useDoubleTapToZoom(
+  scrollViewRef: React.RefObject<any>,
   scaled: boolean,
-  setScale: (scale: number) => void,
-  onZoom: (isZoomed: boolean) => void
+  screen: Dimensions
 ) {
-  // For web: just toggle scale between 1 and 1.5 on double tap
-  const handleDoubleTap = useCallback(() => {
-    const nowTS = Date.now();
-    if (lastTapTS && nowTS - lastTapTS < DOUBLE_TAP_DELAY) {
-      if (!scaled) {
-        setScale(1.5);
-        onZoom(true);
-      } else {
-        setScale(1);
-        onZoom(false);
+  const handleZoomClick = useCallback(
+    (event: any) => {
+      // Check for Ctrl+click (or Cmd+click on Mac)
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Return zoom information for parent to handle
+        return {
+          shouldZoom: !scaled,
+          scale: !scaled ? 2 : 1,
+          // Include click coordinates for zoom positioning
+          clickX: event.nativeEvent?.locationX || event.clientX,
+          clickY: event.nativeEvent?.locationY || event.clientY,
+        };
       }
-    }
-    lastTapTS = nowTS;
-  }, [scaled, setScale, onZoom]);
+      
+      return null;
+    },
+    [scaled, screen]
+  );
 
-  return handleDoubleTap;
+  return handleZoomClick;
 }
+
 
 export default useDoubleTapToZoom;

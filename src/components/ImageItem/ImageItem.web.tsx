@@ -21,7 +21,7 @@ import {
 import { ImageSource } from "../../@types";
 import { ImageLoading } from "./ImageLoading";
 import useImageDimensions from "../../hooks/useImageDimensions";
-import useDoubleTapToZoom from "../../hooks/useDoubleTapToZoom";
+import useDoubleTapToZoom from "../../hooks/useDoubleTapToZoom.web";
 import { getImageStyles, getImageTransform } from "../../utils";
 
 const SWIPE_CLOSE_OFFSET = 75;
@@ -58,7 +58,21 @@ const ImageItem = ({
   const [loaded, setLoaded] = useState(false);
   const [scaled, setScaled] = useState(false);
   const imageDimensions = useImageDimensions(imageSrc);
-  const handleDoubleTap = useDoubleTapToZoom(scrollViewRef, scaled, SCREEN);
+  const handleZoomClick = useDoubleTapToZoom(scrollViewRef, scaled, SCREEN);
+  
+  // Handle Ctrl+click zoom
+  const onImagePress = useCallback((event: any) => {
+    if (doubleTapToZoomEnabled) {
+      const zoomResult = handleZoomClick(event);
+      if (zoomResult) {
+        const newScaled = zoomResult.shouldZoom;
+        setScaled(newScaled);
+        onZoom(newScaled);
+        return; // Don't continue with normal click handling
+      }
+    }
+    // Normal click behavior here if needed
+  }, [handleZoomClick, doubleTapToZoomEnabled, onZoom]);
 
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
   const scrollValueY = new Animated.Value(0);
@@ -76,7 +90,17 @@ const ImageItem = ({
     translateValue,
     scaleValue
   );
-  const imageStylesWithOpacity = { ...imagesStyles, opacity: imageOpacity };
+  
+  // Apply web zoom scaling
+  const webZoomScale = scaled ? 2 : 1;
+  const imageStylesWithOpacity = { 
+    ...imagesStyles, 
+    opacity: imageOpacity,
+    transform: [
+      ...(imagesStyles.transform || []),
+      { scale: webZoomScale }
+    ]
+  };
 
   const onScrollEndDrag = useCallback(
     ({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -135,7 +159,7 @@ const ImageItem = ({
       >
         {(!loaded || !imageDimensions) && <ImageLoading />}
         <Pressable
-          onPress={doubleTapToZoomEnabled ? handleDoubleTap : undefined}
+          onPress={onImagePress}
           onLongPress={onLongPressHandler}
           delayLongPress={delayLongPress}
         >
