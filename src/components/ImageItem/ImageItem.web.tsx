@@ -54,14 +54,12 @@ const ImageItem = ({
 }: Props) => {
   const scrollViewRef = useRef<ScrollView>(null);
   const [loaded, setLoaded] = useState(false);
-  const [scaled, setScaled] = useState(false);
   const imageDimensions = useImageDimensions(imageSrc);
   
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
   const scrollValueY = new Animated.Value(0);
   const scaleValue = new Animated.Value(scale || 1);
-  const translateValue = new Animated.ValueXY(translate);
-  const maxScale = scale && scale > 0 ? Math.max(1 / scale, 1) : 1;
+  const translateValue = new Animated.ValueXY({ x: 0, y: 0 });
   
   const imageOpacity = scrollValueY.interpolate({
     inputRange: [-SWIPE_CLOSE_OFFSET, 0, SWIPE_CLOSE_OFFSET],
@@ -75,25 +73,32 @@ const ImageItem = ({
   );
   
   // Apply web zoom scaling
-  const webZoomScale = scaled ? 2 : 1;
   const imageStylesWithOpacity = { 
     ...imagesStyles, 
     opacity: imageOpacity,
-    transform: [
-      ...(imagesStyles.transform || []),
-      { scale: webZoomScale }
-    ]
+    height: imageDimensions?.height,
   };
+
+  const styles = StyleSheet.create({
+    listItem: {
+      width: SCREEN_WIDTH,
+      height: SCREEN_HEIGHT,
+    },
+    imageScrollContainer: {
+      height: SCREEN_HEIGHT,
+      width: SCREEN_WIDTH,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  });
 
   return (
     <View style={[containerStyle]}>
       <ScrollView
         ref={scrollViewRef}
         style={[styles.listItem, style]}
-        pinchGestureEnabled
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        maximumZoomScale={maxScale}
         contentContainerStyle={styles.imageScrollContainer}
         scrollEventThrottle={1}
       >
@@ -108,14 +113,5 @@ const ImageItem = ({
   );
 };
 
-const styles = StyleSheet.create({
-  listItem: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-  },
-  imageScrollContainer: {
-    height: SCREEN_HEIGHT,
-  },
-});
 
 export default React.memo(ImageItem);
