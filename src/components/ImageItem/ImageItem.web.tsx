@@ -54,15 +54,12 @@ const ImageItem = ({
 }: Props) => {
   const scrollViewRef = useRef<ScrollView>(null);
   const [loaded, setLoaded] = useState(false);
-  const [scaled, setScaled] = useState(false);
   const imageDimensions = useImageDimensions(imageSrc);
   
   const [translate, scale] = getImageTransform(imageDimensions, SCREEN);
   const scrollValueY = new Animated.Value(0);
   const scaleValue = new Animated.Value(scale || 1);
-  // On web, center via layout instead of translate to avoid misalignment
   const translateValue = new Animated.ValueXY({ x: 0, y: 0 });
-  const maxScale = scale && scale > 0 ? Math.max(1 / scale, 1) : 1;
   
   const imageOpacity = scrollValueY.interpolate({
     inputRange: [-SWIPE_CLOSE_OFFSET, 0, SWIPE_CLOSE_OFFSET],
@@ -76,40 +73,45 @@ const ImageItem = ({
   );
   
   // Apply web zoom scaling
-  const webZoomScale = scaled ? 2 : 1;
   const imageStylesWithOpacity = { 
     ...imagesStyles, 
     opacity: imageOpacity,
-    transform: [
-      ...(imagesStyles.transform || []),
-      { scale: webZoomScale }
-    ]
+    height: imageDimensions?.height,
   };
+
+  const styles = StyleSheet.create({
+    listItem: {
+      width: SCREEN_WIDTH,
+      height: SCREEN_HEIGHT,
+    },
+    imageScrollContainer: {
+      height: SCREEN_HEIGHT,
+      width: SCREEN_WIDTH,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  });
 
   return (
     <View style={[containerStyle]}>
-      {(!loaded || !imageDimensions) && <ImageLoading />}
-      <Animated.Image
-        source={imageSrc}
-        width={'100%'}
-        height={imageDimensions?.height}
-        style={[imageStylesWithOpacity]}
-        onLoad={() => setLoaded(true)}
-      />
+      <ScrollView
+        ref={scrollViewRef}
+        style={[styles.listItem, style]}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.imageScrollContainer}
+        scrollEventThrottle={1}
+      >
+        {(!loaded || !imageDimensions) && <ImageLoading />}
+        <Animated.Image
+          source={imageSrc}
+          style={[imageStylesWithOpacity]}
+          onLoad={() => setLoaded(true)}
+        />
+      </ScrollView>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  listItem: {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-  },
-  imageScrollContainer: {
-    height: '100%',
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default React.memo(ImageItem);
