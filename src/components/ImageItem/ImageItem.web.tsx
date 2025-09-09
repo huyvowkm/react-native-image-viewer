@@ -88,24 +88,14 @@ const ImageItem = ({
 
   return (
     <View style={[containerStyle]}>
-      <ScrollView
-        ref={scrollViewRef}
-        style={[styles.listItem, style]}
-        pinchGestureEnabled
-        
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        maximumZoomScale={maxScale}
-        contentContainerStyle={styles.imageScrollContainer}
-        scrollEventThrottle={1}
-      >
-        {(!loaded || !imageDimensions) && <ImageLoading />}
-        <Animated.Image
-          source={imageSrc}
-          style={[imageStylesWithOpacity]}
-          onLoad={() => setLoaded(true)}
-        />
-      </ScrollView>
+      {(!loaded || !imageDimensions) && <ImageLoading />}
+      <Animated.Image
+        source={imageSrc}
+        width={'100%'}
+        height={imageDimensions?.height}
+        style={[imageStylesWithOpacity]}
+        onLoad={() => setLoaded(true)}
+      />
     </View>
   );
 };
