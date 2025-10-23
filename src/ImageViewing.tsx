@@ -6,7 +6,7 @@
  *
  */
 
-import React, { ComponentType, useCallback, useRef, useEffect, forwardRef, useImperativeHandle } from "react";
+import React, { ComponentType, useCallback, useRef, useEffect, forwardRef, useImperativeHandle, useState } from "react";
 import {
   Animated,
   Dimensions,
@@ -16,10 +16,12 @@ import {
   ModalProps,
   Modal,
   ViewStyle,
+  Platform,
 } from "react-native";
 
 import ImageItem from "./components/ImageItem/ImageItem";
 import ImageDefaultHeader from "./components/ImageDefaultHeader";
+import ImageNavigation from "./components/ImageNavigation";
 import StatusBarManager from "./components/StatusBarManager";
 
 import useAnimatedComponents from "./hooks/useAnimatedComponents";
@@ -87,6 +89,7 @@ const ImageViewing = forwardRef<ImageViewingRef, Props>(({
   const [currentImageIndex, setImageIndex, onScroll] = useImageIndexChange(imageIndex, SCREEN);
   const [headerTransform, footerTransform, toggleBarsVisible] =
     useAnimatedComponents();
+  const [scrollEnabled, setScrollEnabled] = useState(true);
 
   useImperativeHandle(ref, () => ({
     setImageIndex: (index: number) => {
@@ -105,12 +108,32 @@ const ImageViewing = forwardRef<ImageViewingRef, Props>(({
 
   const onZoom = useCallback(
     (isScaled: boolean) => {
-      // @ts-ignore
-      imageList?.current?.setNativeProps({ scrollEnabled: !isScaled });
+      setScrollEnabled(!isScaled);
+      // Only use setNativeProps on native platforms
+      if (Platform.OS !== 'web') {
+        // @ts-ignore
+        imageList?.current?.setNativeProps({ scrollEnabled: !isScaled });
+      }
       toggleBarsVisible(!isScaled);
     },
     [imageList]
   );
+
+  const handlePreviousImage = useCallback(() => {
+    if (currentImageIndex > 0) {
+      const newIndex = currentImageIndex - 1;
+      setImageIndex(newIndex);
+      imageList.current?.scrollToIndex({ index: newIndex, animated: false });
+    }
+  }, [currentImageIndex, setImageIndex]);
+
+  const handleNextImage = useCallback(() => {
+    if (currentImageIndex < images.length - 1) {
+      const newIndex = currentImageIndex + 1;
+      setImageIndex(newIndex);
+      imageList.current?.scrollToIndex({ index: newIndex, animated: false });
+    }
+  }, [currentImageIndex, images.length, setImageIndex]);
 
   if (!visible) {
     return null;
@@ -153,6 +176,7 @@ const ImageViewing = forwardRef<ImageViewingRef, Props>(({
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           initialScrollIndex={imageIndex}
+          scrollEnabled={scrollEnabled}
           getItem={(_: any, index: number) => images[index]}
           getItemCount={() => images.length}
           getItemLayout={(_: any, index: number) => ({
@@ -182,6 +206,12 @@ const ImageViewing = forwardRef<ImageViewingRef, Props>(({
               ? `${imageSrc}`
               : imageSrc.uri
           }
+        />
+        <ImageNavigation
+          imageIndex={currentImageIndex}
+          imagesCount={images.length}
+          onPrevious={handlePreviousImage}
+          onNext={handleNextImage}
         />
         {typeof FooterComponent !== "undefined" && (
           <Animated.View
