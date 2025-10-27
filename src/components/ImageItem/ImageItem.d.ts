@@ -17,7 +17,6 @@ declare type Props = {
   onLongPress: (image: ImageSource) => void;
   delayLongPress: number;
   swipeToCloseEnabled?: boolean;
-
   doubleTapToZoomEnabled?: boolean;
   containerStyle?: ViewStyle;
   style?: ViewStyle;
